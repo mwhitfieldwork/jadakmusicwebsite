@@ -1,0 +1,26 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow eyebrow--on-dark">Videos</span>
+    <h1>Videos</h1>
+    <p class="page-hero__lede">
+      A few favorites, organized by category. Follow
+      <a [href]="youtubeChannel" target="_blank" rel="noopener" style="color: var(--color-gold-light); text-decoration: underline;">@jadakonthebeat on YouTube</a>
+      for the full catalog.
+    </p>
+  </div>
+</section>
+
+<section class="section section--cream" *ngFor="let group of groups">
+  <div class="container">
+    <h2 class="section-heading">{{ group.category }}</h2>
+    <div class="grid grid--2 video-list">
+      <a class="video-card" *ngFor="let video of group.items" [href]="video.youtubeUrl" target="_blank" rel="noopener">
+        <div class="video-card__play" aria-hidden="true">&#9658;</div>
+        <div>
+          <p class="video-card__title">{{ video.title }}</p>
+          <p class="video-card__subtitle" *ngIf="video.subtitle">{{ video.subtitle }}</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

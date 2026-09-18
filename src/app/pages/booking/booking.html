@@ -1,0 +1,90 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow eyebrow--on-dark">Booking</span>
+    <h1>Book Your Event</h1>
+    <p class="page-hero__lede">
+      $25/hour &middot; {{ pricing.depositPercent }}% deposit to reserve your date, with the final installment due once your event is approved.
+    </p>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container booking-wrap">
+    <form [formGroup]="form" class="booking-form" novalidate>
+      <div class="field-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Event</mat-label>
+          <input matInput formControlName="event" placeholder="Wedding, birthday, tea party..." required />
+        </mat-form-field>
+      </div>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Event Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate" required />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estimated Hours</mat-label>
+          <input matInput type="number" min="1" formControlName="estimatedHours" />
+        </mat-form-field>
+      </div>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput type="tel" formControlName="phone" required />
+        </mat-form-field>
+      </div>
+
+      <div class="booking-estimate">
+        <p>Estimated total: <strong>{{ '$' + estimatedTotal }}</strong></p>
+        <p>{{ pricing.depositPercent }}% down payment due today: <strong>{{ '$' + estimatedDeposit }}</strong></p>
+        <p class="booking-estimate__note">Final pricing is confirmed with Jada before any charge — this is just an estimate.</p>
+      </div>
+
+      <button type="button" class="btn btn--gold" (click)="revealPayment()" [disabled]="showPayment()">
+        {{ showPayment() ? 'Down Payment Details Below' : 'Pay Down Payment' }}
+      </button>
+    </form>
+
+    <div class="payment-panel" *ngIf="showPayment()">
+      <span class="eyebrow">Step 2</span>
+      <h2 class="section-heading">Choose a Payment Method</h2>
+      <p class="payment-panel__note">
+        Payment processing isn't connected yet in this preview — this shows the intended layout only.
+      </p>
+
+      <div class="payment-options payment-options--desktop">
+        <button type="button" class="payment-option" disabled>
+          <span class="payment-option__label">Card</span>
+        </button>
+        <button type="button" class="payment-option" disabled>
+          <span class="payment-option__label">Link</span>
+        </button>
+      </div>
+
+      <div class="payment-options payment-options--mobile">
+        <button type="button" class="payment-option" disabled>
+          <span class="payment-option__label">Apple Pay</span>
+        </button>
+        <button type="button" class="payment-option" disabled>
+          <span class="payment-option__label">Google Pay</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

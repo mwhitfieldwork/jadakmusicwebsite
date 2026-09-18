@@ -1,0 +1,35 @@
+<header class="site-header">
+  <div class="site-header__bar container">
+    <a routerLink="/" class="site-header__logo" (click)="closeMenu()">
+      <img [src]="brand.logo" [alt]="brand.name" />
+    </a>
+
+    <nav class="site-header__nav" [class.is-open]="menuOpen()">
+      <a
+        *ngFor="let link of navLinks"
+        [routerLink]="link.path"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+        (click)="closeMenu()"
+      >{{ link.label }}</a>
+      <a
+        [routerLink]="contactLink.path"
+        routerLinkActive="is-active"
+        class="site-header__contact-link"
+        (click)="closeMenu()"
+      >{{ contactLink.label }}</a>
+    </nav>
+
+    <button
+      type="button"
+      class="site-header__toggle"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-label="Toggle navigation menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>

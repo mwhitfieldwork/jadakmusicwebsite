@@ -1,0 +1,67 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow eyebrow--on-dark">Testimonials</span>
+    <h1>What our clients say</h1>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <div class="testimonial-grid">
+      <blockquote class="testimonial-card" *ngFor="let t of testimonials">
+        <p class="testimonial-card__text">&ldquo;{{ t.text }}&rdquo;</p>
+        <footer>
+          <span class="testimonial-card__name">{{ t.name }}</span>
+          <span class="testimonial-card__meta" *ngIf="t.subtitle">{{ t.subtitle }} &middot; </span>
+          <span class="testimonial-card__meta">{{ t.date }}</span>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container testimonial-form-wrap">
+    <span class="eyebrow">Leave a Review</span>
+    <h2>Worked with Jada? Share your experience.</h2>
+    <p class="page-hero__lede" style="margin: 0 0 2rem;">
+      New reviews are checked by Jada before they're posted publicly, so don't worry if it doesn't show up right away.
+    </p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!submitted(); else thanks" class="testimonial-form" novalidate>
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" />
+        <p class="field__error" *ngIf="form.controls.name.invalid && form.controls.name.touched">Please enter your name.</p>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+        <p class="field__error" *ngIf="form.controls.email.invalid && form.controls.email.touched">Please enter a valid email.</p>
+      </div>
+
+      <div class="field">
+        <label for="eventType">Type of Event (optional)</label>
+        <input id="eventType" type="text" formControlName="eventType" placeholder="Wedding, birthday, tea party..." />
+      </div>
+
+      <div class="field">
+        <label for="review">Your Review</label>
+        <textarea id="review" rows="5" formControlName="review"></textarea>
+        <p class="field__error" *ngIf="form.controls.review.invalid && form.controls.review.touched">Please share a few words about your experience.</p>
+      </div>
+
+      <button type="submit" class="btn btn--gold" [disabled]="submitting()">
+        {{ submitting() ? 'Submitting…' : 'Submit Review' }}
+      </button>
+    </form>
+
+    <ng-template #thanks>
+      <div class="testimonial-form__thanks">
+        <h3>Thank you!</h3>
+        <p>Your review has been submitted for approval. Once Jada approves it, it will appear on this page.</p>
+      </div>
+    </ng-template>
+  </div>
+</section>

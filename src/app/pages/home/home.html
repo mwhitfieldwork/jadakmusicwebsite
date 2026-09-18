@@ -1,0 +1,56 @@
+<section class="hero" [style.backgroundImage]="'url(' + content.heroImages[0] + ')'">
+  <div class="hero__overlay"></div>
+  <div class="hero__content container">
+    <span class="eyebrow eyebrow--on-dark">Harp &middot; Piano &middot; Music Production</span>
+    <h1>{{ brand.name }}</h1>
+    <p class="hero__tagline">Live harp &amp; piano performances and original music production for weddings, events, and celebrations.</p>
+    <div class="hero__actions">
+      <a routerLink="/booking" class="btn btn--gold">Book an Event</a>
+      <a routerLink="/contact" class="btn btn--on-dark">Contact</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container about-grid">
+    <div class="about-grid__image">
+      <img [src]="content.photos[0]" alt="Jada K performing" />
+    </div>
+    <div class="about-grid__text">
+      <span class="eyebrow">Meet Jada K</span>
+      <h2>{{ content.heading }}</h2>
+      <hr class="rule" />
+      <p *ngFor="let line of content.intro">{{ line }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container about-grid about-grid--reverse">
+    <div class="about-grid__image">
+      <img [src]="content.photos[1]" alt="Jada K with her harp" />
+    </div>
+    <div class="about-grid__text">
+      <p *ngFor="let paragraph of content.body">{{ paragraph }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--charcoal verse">
+  <div class="container text-center">
+    <h3>{{ content.verseHeading }}</h3>
+    <hr class="rule rule--center" />
+    <p class="verse__body">{{ content.verseBody }}</p>
+  </div>
+</section>
+
+<section class="section section--cream cta text-center">
+  <div class="container">
+    <span class="eyebrow">$25/hour &middot; 30% deposit to book</span>
+    <h2>Ready to set the soundtrack for your event?</h2>
+    <div class="hero__actions">
+      <a routerLink="/booking" class="btn btn--gold">Book an Event</a>
+      <a routerLink="/contact" class="btn">Ask a Question</a>
+    </div>
+  </div>
+</section>

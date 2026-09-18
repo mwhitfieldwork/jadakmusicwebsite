@@ -1,0 +1,40 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow eyebrow--on-dark">Harp</span>
+    <h1>Harp</h1>
+    <p class="page-hero__lede">{{ content.intro }}</p>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <blockquote class="pull-quote">{{ content.quote }}</blockquote>
+
+    <div class="content-columns">
+      <div>
+        <h2 class="section-heading">Weddings</h2>
+        <p>{{ content.weddingsIntro }}</p>
+        <ul class="service-list">
+          <li *ngFor="let item of content.weddingsServices">{{ item }}</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="section-heading">Other Events</h2>
+        <ul class="service-list">
+          <li *ngFor="let item of content.otherEventsServices">{{ item }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="media-grid">
+      <app-media-placeholder *ngFor="let video of content.videos" [title]="video.title"></app-media-placeholder>
+    </div>
+  </div>
+</section>
+
+<section class="section text-center">
+  <div class="container">
+    <h2>Contact for booking info</h2>
+    <a routerLink="/contact" class="btn btn--gold">Contact Jada</a>
+  </div>
+</section>

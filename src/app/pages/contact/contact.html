@@ -1,0 +1,65 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow eyebrow--on-dark">Contact</span>
+    <h1>{{ content.heading }}</h1>
+    <p class="page-hero__lede">{{ content.subheading }}</p>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container content-columns">
+    <div>
+      <p>{{ content.intro }}</p>
+      <p>{{ content.reviewNote }}</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!submitted(); else thanks" class="contact-form" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label for="firstName">First Name</label>
+            <input id="firstName" type="text" formControlName="firstName" />
+            <p class="field__error" *ngIf="form.controls.firstName.invalid && form.controls.firstName.touched">Required</p>
+          </div>
+          <div class="field">
+            <label for="lastName">Last Name</label>
+            <input id="lastName" type="text" formControlName="lastName" />
+            <p class="field__error" *ngIf="form.controls.lastName.invalid && form.controls.lastName.touched">Required</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" />
+          <p class="field__error" *ngIf="form.controls.email.invalid && form.controls.email.touched">Please enter a valid email.</p>
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" rows="7" formControlName="message" placeholder="Tell me about your event..."></textarea>
+          <p class="field__error" *ngIf="form.controls.message.invalid && form.controls.message.touched">Please share a bit about your event.</p>
+        </div>
+
+        <button type="submit" class="btn btn--gold" [disabled]="submitting()">
+          {{ submitting() ? 'Sending…' : 'Send' }}
+        </button>
+      </form>
+
+      <ng-template #thanks>
+        <div class="contact-form__thanks">
+          <h3>Message sent!</h3>
+          <p>{{ content.closing }}</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <aside class="contact-sidebar">
+      <h3>{{ content.detailsPrompt }}</h3>
+      <ul class="service-list">
+        <li *ngFor="let field of content.detailsFields">{{ field }}</li>
+      </ul>
+      <hr class="rule" />
+      <p>{{ content.directEmailNote }}</p>
+      <p>{{ content.signoff }}</p>
+      <a [href]="content.portfolioPdf" target="_blank" class="btn">Sample PDF</a>
+    </aside>
+  </div>
+</section>

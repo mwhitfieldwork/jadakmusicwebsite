@@ -1,0 +1,28 @@
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <img [src]="brand.footerLogo" [alt]="brand.name + ' logo'" class="site-footer__logo" />
+
+    <nav class="site-footer__links" aria-label="Footer">
+      <a routerLink="/contact">Contact</a>
+      <a routerLink="/booking">Booking</a>
+      <a routerLink="/testimonials">Testimonials</a>
+    </nav>
+
+    <div class="site-footer__social">
+      <a [href]="socialLinks.instagram" target="_blank" rel="noopener" aria-label="Instagram">
+        <img [src]="socialIcons.instagram" alt="Instagram" />
+      </a>
+      <a [href]="socialLinks.facebook" target="_blank" rel="noopener" aria-label="Facebook">
+        <img [src]="socialIcons.facebook" alt="Facebook" />
+      </a>
+      <a [href]="socialLinks.tiktok" target="_blank" rel="noopener" aria-label="TikTok">
+        <img [src]="socialIcons.tiktok" alt="TikTok" />
+      </a>
+      <a [href]="socialLinks.youtube" target="_blank" rel="noopener" aria-label="YouTube">
+        <img [src]="socialIcons.youtube" alt="YouTube" />
+      </a>
+    </div>
+
+    <p class="site-footer__copyright">{{ brand.copyright }}</p>
+  </div>
+</footer>

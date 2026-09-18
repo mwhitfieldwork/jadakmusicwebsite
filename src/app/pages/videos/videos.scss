@@ -1,0 +1,33 @@
+.video-list {
+  margin-top: 1.5rem;
+}
+
+.video-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-white);
+  padding: 1.25rem 1.5rem;
+  border-left: 3px solid var(--color-gold);
+  transition: transform 0.2s ease;
+}
+
+.video-card:hover {
+  transform: translateX(4px);
+}
+
+.video-card__play {
+  color: var(--color-gold);
+  font-size: 1.1rem;
+}
+
+.video-card__title {
+  margin: 0;
+  font-weight: 500;
+}
+
+.video-card__subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-charcoal-soft);
+}

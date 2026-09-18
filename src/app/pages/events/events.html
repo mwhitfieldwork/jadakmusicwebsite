@@ -1,0 +1,18 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow eyebrow--on-dark">Events</span>
+    <h1>Events</h1>
+    <p class="page-hero__lede">A look back at recent weddings, brunches, birthdays, and celebrations.</p>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <div class="events-gallery">
+      <figure class="events-gallery__item" *ngFor="let photo of photos">
+        <img [src]="photo.src" [alt]="photo.alt" loading="lazy" />
+        <figcaption>{{ photo.alt }}</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
