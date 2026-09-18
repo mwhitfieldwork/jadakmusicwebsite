@@ -22,10 +22,10 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npx ng build --base-href="/jadakmusicwebsite/browser/"
+        run: npx ng build --base-href="/jadakmusicwebsite/"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: dist/jadak-music/browser
+          folder: dist/jadak-music/browser   # <-- THIS is correct
