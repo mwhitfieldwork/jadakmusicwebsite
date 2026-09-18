@@ -4,33 +4,25 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { PRICING } from '../../core/site-content';
+import { PRICING, STRIPE_PAYMENT_LINKS } from '../../core/site-content';
 
 /**
- * Booking + deposit/final-payment UI.
+ * Booking + down-payment UI.
  *
- * STATUS: frontend-only stub for this phase. The "Pay Down Payment" button
- * validates the form and reveals the payment-method section below, but no
- * real charge happens yet — there's no Stripe key, no backend, and no
- * PaymentIntent. The next phase wires this up for real:
+ * STATUS: wired up to a Stripe Payment Link (no backend). "Pay Down
+ * Payment" validates the form, then opens Stripe's hosted checkout in a
+ * new tab, with the customer's email pre-filled. Because it's a Stripe
+ * Payment Link with "customer chooses price" pricing, the visitor still
+ * has to type in the deposit amount themselves on that page — the amount
+ * is shown clearly here beforehand so it's obvious what to enter.
  *
- *   1. Backend (.NET API) creates a Stripe PaymentIntent (deposit amount)
- *      and returns its client secret.
- *   2. Frontend mounts the Stripe Payment Element with that client secret.
- *      The Payment Element automatically shows Card + Link on desktop and
- *      Apple Pay / Google Pay on supported mobile browsers — Stripe's own
- *      Payment Request API detects wallet availability, which is more
- *      reliable than guessing from screen width. See the README for the
- *      full integration plan and package to install
- *      (`@stripe/stripe-js` + `@stripe/stripe-js` Elements, no separate
- *      Angular wrapper needed).
- *   3. A second PaymentIntent (or an off-session confirmation on the same
- *      customer) collects the final installment once Jada approves the
- *      completed event.
- *
- * For now the "desktop vs. smaller devices" split the button structure
- * below shows is a CSS-only approximation (see booking.scss) so the layout
- * and copy are ready to receive the real Payment Element.
+ * WHY NOT FULLY AUTOMATIC: a truly one-click flow (amount sent
+ * automatically, no re-typing) needs a server to create a Stripe
+ * PaymentIntent for the exact amount — Stripe's secret key can never live
+ * in frontend code. That's the Phase 2 (.NET API) upgrade; see the
+ * STRIPE_PAYMENT_LINKS comment in site-content.ts for the full plan. This
+ * Payment Link approach is a deliberate, functional stand-in until then —
+ * not a mistake to "fix" later, just phase 1 of payments.
  */
 @Component({
   selector: 'app-booking',
@@ -62,6 +54,16 @@ export class Booking {
 
   get estimatedDeposit(): number {
     return Math.round(this.estimatedTotal * (this.pricing.depositPercent / 100));
+  }
+
+  /** Stripe Payment Link URL with the customer's email pre-filled. */
+  get depositLink(): string {
+    const email = this.form.controls.email.value;
+    const url = new URL(STRIPE_PAYMENT_LINKS.deposit);
+    if (email) {
+      url.searchParams.set('prefilled_email', email);
+    }
+    return url.toString();
   }
 
   revealPayment(): void {

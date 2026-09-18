@@ -36,11 +36,15 @@ resolves the test tooling's peer dependencies.
   frontend-only stub (see "What's next").
 - Booking page has the requested fields (Name, Event, Date via Angular
   Material's date picker, Email, Phone) plus an estimated-total/deposit
-  calculator based on the $25/hr rate and 30% deposit terms. The "Pay Down
-  Payment" button reveals a payment-method section (Card/Link on desktop,
-  Apple Pay/Google Pay on small screens) — this is a UI stub only; no
-  charge happens yet. See `src/app/pages/booking/booking.ts` for the full
-  integration plan.
+  calculator based on the $25/hr rate and 30% deposit terms. "Pay Down
+  Payment" sends the customer to a **Stripe Payment Link** (see
+  `STRIPE_PAYMENT_LINKS` in `site-content.ts`) — real money moves once
+  that's set to a live link; it's on Stripe's test mode `REPLACE_ME`
+  placeholder until then. Card, Apple Pay, Google Pay, and Link all work
+  automatically there since Stripe hosts that checkout page — no backend
+  needed for this phase. See `src/app/pages/booking/booking.ts` for why
+  it's a Payment Link rather than a fully embedded form, and what upgrading
+  to that later looks like.
 - Videos page ships with a small starting set of entries (the jadakmusic.com
   site itself only embeds a few native clips, not a YouTube gallery — see
   the comment above `VIDEOS` in `site-content.ts`).
@@ -84,15 +88,14 @@ templates — this will also make it straightforward to point the admin app
 This was scoped as "public site pages first" — here's the rest of the
 original request, in the order it makes sense to build:
 
-1. **Real payments (Stripe).** Install `@stripe/stripe-js`, create a
-   `.NET` endpoint that creates a Stripe PaymentIntent for the deposit
-   (30% of the quote) and a second one for the final installment, and swap
-   the Booking page's payment stub for Stripe's **Payment Element** — it
-   automatically shows Card + Link on desktop and Apple Pay / Google Pay on
-   supported mobile browsers by detecting real wallet availability (far more
-   reliable than guessing from screen size, which is all the current stub
-   does). No separate Angular wrapper package is needed — Stripe.js mounts
-   directly into a DOM element.
+1. **Upgrade payments from Payment Links to a fully embedded flow (optional).**
+   The current Payment Link works today with no backend, but the customer
+   has to type in the deposit amount themselves and leaves the site to pay.
+   Once the .NET API exists, install `@stripe/stripe-js`, have the API
+   create a Stripe PaymentIntent for the exact deposit (and later the final
+   installment), and mount Stripe's **Payment Element** directly on the
+   Booking page instead of linking out — same automatic Card/Link/Apple
+   Pay/Google Pay detection, just fully inline and pre-filled.
 2. **.NET 6 API + Postgres backend**, shared by this site and the admin app:
    contact form submissions, testimonial moderation queue, booking
    calendar/appointments, and Stripe PaymentIntent creation.

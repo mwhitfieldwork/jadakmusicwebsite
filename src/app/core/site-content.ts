@@ -87,6 +87,38 @@ export const PRICING = {
   terms: '30% deposit/installment to get started, with a final installment once everything is approved.',
 };
 
+/**
+ * Stripe Payment Links (dashboard.stripe.com → Payment links → +New),
+ * chosen so the booking flow works with zero backend — Stripe hosts the
+ * actual checkout page, so Card / Link / Apple Pay / Google Pay are all
+ * handled automatically based on what the visitor's browser/device
+ * supports. No PaymentIntent code, no server, no secret key anywhere in
+ * this app.
+ *
+ * SETUP (test mode first):
+ *   1. In Stripe, create a Payment Link for the deposit. Since the deposit
+ *      amount varies with estimated hours, set the price to
+ *      "Customer chooses price" (Stripe: Product → pricing model →
+ *      "Customer determines price") rather than a fixed amount.
+ *   2. Turn on Link, Apple Pay, and Google Pay for it under the link's
+ *      payment method settings (Card is on by default).
+ *   3. Copy the link (looks like https://buy.stripe.com/test_xxxxxxxx) and
+ *      paste it below as `deposit`.
+ *   4. Repeat later for `finalInstallment` when that flow is needed
+ *      (currently not linked from the Booking page — the final payment
+ *      goes out after Jada approves the completed event, which fits the
+ *      admin app phase better than a public page).
+ *   5. Swap `test_xxx` for the live link once ready to accept real charges.
+ *
+ * The `?prefilled_email=` query param is a Stripe-supported feature that
+ * pre-fills the customer's email on the hosted checkout page — see
+ * booking.ts for how it's appended.
+ */
+export const STRIPE_PAYMENT_LINKS = {
+  deposit: 'https://buy.stripe.com/test_REPLACE_ME',
+  finalInstallment: 'https://buy.stripe.com/test_REPLACE_ME_TOO',
+};
+
 export const HOME_CONTENT = {
   heroImages: [
     'assets/images/home-harp-header.png',

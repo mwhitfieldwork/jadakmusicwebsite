@@ -24,6 +24,15 @@ jobs:
       - name: Build Angular app
         run: npx ng build --base-href="/jadakmusicwebsite/"
 
+      - name: Add 404.html for client-side routing
+        # GitHub Pages has no server, so it can't hand off a direct link like
+        # /jadakmusicwebsite/piano to the Angular router — it just 404s. GitHub
+        # Pages falls back to 404.html for any unmatched path, so serving a
+        # copy of index.html there lets Angular's router take over and render
+        # the right page. Copied post-build so it always matches the current
+        # build's hashed script/style filenames.
+        run: cp dist/jadak-music/index.html dist/jadak-music/404.html
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:

@@ -63,28 +63,16 @@
 
     <div class="payment-panel" *ngIf="showPayment()">
       <span class="eyebrow">Step 2</span>
-      <h2 class="section-heading">Choose a Payment Method</h2>
+      <h2 class="section-heading">Complete Your Down Payment</h2>
       <p class="payment-panel__note">
-        Payment processing isn't connected yet in this preview — this shows the intended layout only.
+        You'll be taken to a secure Stripe checkout page. Card, Apple Pay, Google Pay, and Link all
+        show up automatically there based on what your device supports — just enter
+        <strong>{{ '$' + estimatedDeposit }}</strong> as the amount when prompted.
       </p>
 
-      <div class="payment-options payment-options--desktop">
-        <button type="button" class="payment-option" disabled>
-          <span class="payment-option__label">Card</span>
-        </button>
-        <button type="button" class="payment-option" disabled>
-          <span class="payment-option__label">Link</span>
-        </button>
-      </div>
-
-      <div class="payment-options payment-options--mobile">
-        <button type="button" class="payment-option" disabled>
-          <span class="payment-option__label">Apple Pay</span>
-        </button>
-        <button type="button" class="payment-option" disabled>
-          <span class="payment-option__label">Google Pay</span>
-        </button>
-      </div>
+      <a [href]="depositLink" target="_blank" rel="noopener" class="btn btn--gold">
+        Continue to Secure Payment
+      </a>
     </div>
   </div>
 </section>

@@ -48,38 +48,5 @@
 .payment-panel__note {
   font-size: 0.85rem;
   color: var(--color-charcoal-soft);
-}
-
-.payment-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.payment-option {
-  border: 1px solid rgba(53, 52, 50, 0.25);
-  background: var(--color-cream);
-  padding: 1rem;
-  font-family: var(--font-label);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.82rem;
-  cursor: not-allowed;
-}
-
-/* Approximation of "cards/link on desktop, wallets on smaller devices" for
-   this UI stub. The real Stripe Payment Element replaces both of these
-   with elements chosen by actual wallet availability (see booking.ts). */
-.payment-options--mobile {
-  display: none;
-}
-
-@media (max-width: 640px) {
-  .payment-options--desktop {
-    display: none;
-  }
-  .payment-options--mobile {
-    display: grid;
-  }
+  margin-bottom: 1.25rem;
 }
