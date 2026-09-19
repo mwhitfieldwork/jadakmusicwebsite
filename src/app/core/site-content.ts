@@ -115,8 +115,8 @@ export const PRICING = {
  * booking.ts for how it's appended.
  */
 export const STRIPE_PAYMENT_LINKS = {
-  deposit: 'https://buy.stripe.com/test_REPLACE_ME',
-  finalInstallment: 'https://buy.stripe.com/test_REPLACE_ME_TOO',
+  deposit: 'https://buy.stripe.com/test_9B6cN5biOdSpgwL5Ydgw000',
+  finalInstallment: 'https://buy.stripe.com/test_9B6cN5biOdSpgwL5Ydgw000',
 };
 
 export const HOME_CONTENT = {
