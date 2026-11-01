@@ -54,7 +54,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Music Production', path: '/music-production' },
   { label: 'Events', path: '/events' },
   { label: 'Testimonials', path: '/testimonials' },
-  { label: 'Videos', path: '/videos' },
+  //{ label: 'Videos', path: '/videos' },
   { label: 'Booking', path: '/booking' },
   { label: 'Contact', path: '/contact' },
 ];
@@ -119,6 +119,9 @@ export const STRIPE_PAYMENT_LINKS = {
   finalInstallment: 'https://buy.stripe.com/test_9B6cN5biOdSpgwL5Ydgw000',
 };
 
+export const RECEIPT_SERVICE_URL = 'http://localhost:5214';
+// Swap to the real Railway URL once the backend is deployed.
+
 export const HOME_CONTENT = {
   heroImages: [
     'assets/images/home-harp-header.png',
@@ -131,7 +134,7 @@ export const HOME_CONTENT = {
   heading: 'Hi! I’m so happy you are interested in my music!',
   intro: [
     'I’m Jada Kristine aka - Jada K.',
-    'My love for music began at the age of 5 when my great-grandmother gifted me a piano. Since then, I’ve taken piano lessons for over 10 years. Playing the piano has taught me so much about music, chords composition and production. One day, while searching for music tutorials on YouTube, I discovered the harp. Its sound was magical, and I instantly fell in love. After months of begging, my parents gifted me a harp – and I’ve been playing for over 4 years now.',
+    'My love for music began at the age of 5 when my great-grandmother gifted me a piano. Since then, I’ve taken piano lessons for over 10 years. Playing the piano has taught me so much about music, chords composition and production. One day, while searching for music tutorials on YouTube, I discovered the harp. Its sound was magical, and I instantly fell in love. After months of begging, my parents gifted me a harp – and I’ve been playing for over 5 years now.',
   ],
   body: [
     'I’ve had the opportunity of performing at tea parties, restaurants, weddings, church services and birthday celebrations. One of my proudest moments was playing the harp at Jennifer Hudson’s home.',
@@ -161,8 +164,8 @@ export const HARP_CONTENT = {
     'Birthday Parties – a unique and personal touch for celebrations complete with the ‘Happy Birthday’ song',
   ] as string[],
   videos: [
-    { title: 'Harp Performance Clip 1', poster: '', src: 'assets/video/harp-clip-1.mp4' },
-    { title: 'Harp Performance Clip 2', poster: '', src: 'assets/video/harp-clip-2.mp4' },
+    { title: 'Harp Performance Clip 1', poster: '', type: 'youtube' as const, src: 'https://www.youtube.com/embed/s-zN9wb_aak' },
+    { title: 'Harp Performance Clip 2', poster: '', type: 'youtube' as const, src: 'https://www.youtube.com/embed/3qyFL5T57yo?feature=share' },
   ],
 };
 
@@ -181,7 +184,7 @@ export const PIANO_CONTENT = {
     'Choirs/Ensembles – church or school choirs',
   ] as string[],
   videos: [
-    { title: 'Piano Performance Clip', poster: '', src: 'assets/video/piano-clip-1.mp4' },
+    { title: 'Piano Performance Clip', poster: '', type: 'youtube' as const, src: 'https://youtube.com/embed/ICPkSdK7wPU?feature=share' },
   ],
 };
 

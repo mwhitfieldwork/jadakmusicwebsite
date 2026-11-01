@@ -70,6 +70,10 @@
 }
 
 @media (max-width: 800px) {
+   .hero {
+    background-position: 70% center; 
+  }
+ 
   .about-grid,
   .about-grid--reverse {
     grid-template-columns: 1fr;

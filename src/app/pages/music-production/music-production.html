@@ -24,7 +24,7 @@
   <div class="container">
     <h2 class="section-heading">Listen</h2>
     <div class="media-grid">
-      <app-media-placeholder *ngFor="let track of content.tracks" [title]="track.title + ' — ' + track.artist"></app-media-placeholder>
+      <app-media-placeholder *ngFor="let track of content.tracks" [title]="track.title + ' — ' + track.artist" [src]="track.src"></app-media-placeholder>
     </div>
   </div>
 </section>

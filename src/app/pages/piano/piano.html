@@ -25,9 +25,14 @@
       </div>
     </div>
 
-    <div class="media-grid">
-      <app-media-placeholder *ngFor="let video of content.videos" [title]="video.title"></app-media-placeholder>
-    </div>
+<div class="media-grid">
+  <app-media-placeholder
+    *ngFor="let video of content.videos"
+    [title]="video.title"
+    [src]="video.src"
+    [type]="video.type">
+  </app-media-placeholder>
+</div>
   </div>
 </section>
 
