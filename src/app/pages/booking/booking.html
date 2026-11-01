@@ -40,6 +40,13 @@
 
       <div class="field-row">
         <mat-form-field appearance="outline">
+          <mat-label>Performance Location</mat-label>
+          <input matInput formControlName="location" placeholder="Venue name or address" required />
+        </mat-form-field>
+      </div>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <input matInput type="email" formControlName="email" required />
         </mat-form-field>
@@ -50,29 +57,27 @@
         </mat-form-field>
       </div>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Instructions (optional)</mat-label>
+        <textarea matInput formControlName="instructions" rows="2" placeholder="Anything Jada should know about the space, parking, etc."></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Setup Requirements (optional)</mat-label>
+        <textarea matInput formControlName="setupRequirements" rows="2" placeholder="Space needed, power access, surface requirements..."></textarea>
+      </mat-form-field>
+
       <div class="booking-estimate">
         <p>Estimated total: <strong>{{ '$' + estimatedTotal }}</strong></p>
         <p>{{ pricing.depositPercent }}% down payment due today: <strong>{{ '$' + estimatedDeposit }}</strong></p>
         <p class="booking-estimate__note">Final pricing is confirmed with Jada before any charge — this is just an estimate.</p>
       </div>
 
-      <button type="button" class="btn btn--gold" (click)="revealPayment()" [disabled]="showPayment()">
-        {{ showPayment() ? 'Down Payment Details Below' : 'Pay Down Payment' }}
+      <p class="booking-error" *ngIf="submitError() as error">{{ error }}</p>
+
+      <button type="button" class="btn btn--gold" (click)="payDeposit()" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Redirecting to secure payment…' : 'Pay Down Payment' }}
       </button>
     </form>
-
-    <div class="payment-panel" *ngIf="showPayment()">
-      <span class="eyebrow">Step 2</span>
-      <h2 class="section-heading">Complete Your Down Payment</h2>
-      <p class="payment-panel__note">
-        You'll be taken to a secure Stripe checkout page. Card, Apple Pay, Google Pay, and Link all
-        show up automatically there based on what your device supports — just enter
-        <strong>{{ '$' + estimatedDeposit }}</strong> as the amount when prompted.
-      </p>
-
-      <a [href]="depositLink" target="_blank" rel="noopener" class="btn btn--gold">
-        Continue to Secure Payment
-      </a>
-    </div>
   </div>
 </section>

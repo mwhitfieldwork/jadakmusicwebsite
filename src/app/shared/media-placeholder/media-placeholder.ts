@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input , inject} from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 /**
  * Stands in for a performance video/audio clip until Mike exports the
@@ -11,13 +12,39 @@ import { Component, Input } from '@angular/core';
   selector: 'app-media-placeholder',
   standalone: true,
   template: `
-    <div class="media-placeholder">
-      <div class="media-placeholder__icon" aria-hidden="true">&#9835;</div>
-      <p class="media-placeholder__title">{{ title }}</p>
-      <p class="media-placeholder__hint">Media file coming soon</p>
-    </div>
+    @if (src) {
+      @if (type === 'audio') {
+        <audio [src]="src" controls></audio>
+      } @else if (type === 'youtube') {
+        <iframe
+          [src]="safeYoutubeUrl"
+          [title]="title"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      } @else {
+        <video [src]="src" controls></video>
+      }
+    } @else {
+      <div class="media-placeholder">
+        <div class="media-placeholder__icon" aria-hidden="true">&#9835;</div>
+        <p class="media-placeholder__title">{{ title }}</p>
+        <p class="media-placeholder__hint">Media file coming soon</p>
+      </div>
+    }
   `,
   styles: [`
+    video, iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+      border: 0;
+    }
+    audio {
+      width: 100%;
+      display: block;
+    }
     .media-placeholder {
       aspect-ratio: 16 / 9;
       background: var(--color-cream-deep);
@@ -50,5 +77,13 @@ import { Component, Input } from '@angular/core';
   `],
 })
 export class MediaPlaceholder {
+  private sanitizer = inject(DomSanitizer);
+
   @Input() title = 'Video';
+  @Input() src = '';
+  @Input() type: 'video' | 'audio' | 'youtube' = 'video';
+
+  get safeYoutubeUrl(): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.src);
+  }
 }

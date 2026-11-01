@@ -1,28 +1,30 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { PRICING, STRIPE_PAYMENT_LINKS } from '../../core/site-content';
+import { PRICING, RECEIPT_SERVICE_URL } from '../../core/site-content';
 
 /**
  * Booking + down-payment UI.
  *
- * STATUS: wired up to a Stripe Payment Link (no backend). "Pay Down
- * Payment" validates the form, then opens Stripe's hosted checkout in a
- * new tab, with the customer's email pre-filled. Because it's a Stripe
- * Payment Link with "customer chooses price" pricing, the visitor still
- * has to type in the deposit amount themselves on that page — the amount
- * is shown clearly here beforehand so it's obvious what to enter.
+ * STATUS: wired up to the .NET receipt-service backend's
+ * POST /create-checkout-session endpoint (Phase 2), instead of the old
+ * static Stripe Payment Link. "Pay Down Payment" validates the form,
+ * POSTs these details - including the computed deposit amount, so the
+ * visitor never has to re-type it on Stripe's page like before - and
+ * redirects the browser straight to the Stripe-hosted checkout page the
+ * backend creates. That backend attaches the event date/location/notes
+ * below as metadata on the Checkout Session, which is what lets the
+ * emailed PDF receipt include them.
  *
- * WHY NOT FULLY AUTOMATIC: a truly one-click flow (amount sent
- * automatically, no re-typing) needs a server to create a Stripe
- * PaymentIntent for the exact amount — Stripe's secret key can never live
- * in frontend code. That's the Phase 2 (.NET API) upgrade; see the
- * STRIPE_PAYMENT_LINKS comment in site-content.ts for the full plan. This
- * Payment Link approach is a deliberate, functional stand-in until then —
- * not a mistake to "fix" later, just phase 1 of payments.
+ * WHY STILL A REDIRECT, NOT FULLY EMBEDDED: the customer still briefly
+ * lands on Stripe's own checkout page rather than paying directly on this
+ * site - that's a deliberate, smaller-scope choice over building a fully
+ * custom Stripe Elements payment form in Angular, which is a bigger lift
+ * for later if ever wanted.
  */
 @Component({
   selector: 'app-booking',
@@ -33,18 +35,23 @@ import { PRICING, STRIPE_PAYMENT_LINKS } from '../../core/site-content';
 })
 export class Booking {
   protected readonly pricing = PRICING;
-  protected readonly showPayment = signal(false);
   protected readonly minDate = new Date();
+  protected readonly isSubmitting = signal(false);
+  protected readonly submitError = signal<string | null>(null);
 
   private readonly fb = new FormBuilder();
+  private readonly http = inject(HttpClient);
 
   protected readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
     event: ['', Validators.required],
     date: [null as Date | null, Validators.required],
+    location: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', Validators.required],
     estimatedHours: [2, [Validators.min(1)]],
+    instructions: [''],
+    setupRequirements: [''],
   });
 
   get estimatedTotal(): number {
@@ -56,21 +63,47 @@ export class Booking {
     return Math.round(this.estimatedTotal * (this.pricing.depositPercent / 100));
   }
 
-  /** Stripe Payment Link URL with the customer's email pre-filled. */
-  get depositLink(): string {
-    const email = this.form.controls.email.value;
-    const url = new URL(STRIPE_PAYMENT_LINKS.deposit);
-    if (email) {
-      url.searchParams.set('prefilled_email', email);
-    }
-    return url.toString();
-  }
-
-  revealPayment(): void {
+  payDeposit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-    this.showPayment.set(true);
+
+    this.submitError.set(null);
+    this.isSubmitting.set(true);
+
+    const value = this.form.getRawValue();
+    const eventDate = value.date
+      ? value.date.toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : '';
+
+    this.http
+      .post<{ url: string }>(`${RECEIPT_SERVICE_URL}/create-checkout-session`, {
+        customerName: value.name,
+        customerEmail: value.email,
+        depositAmount: this.estimatedDeposit,
+        eventDate,
+        performanceLocation: value.location,
+        instructions: value.instructions || null,
+        setupRequirements: value.setupRequirements || null,
+      })
+      .subscribe({
+        next: (res) => {
+          // A full browser redirect, not an Angular route change - this URL
+          // is Stripe's own hosted checkout page, not part of this app.
+          window.location.href = res.url;
+        },
+        error: () => {
+          this.isSubmitting.set(false);
+          this.submitError.set(
+            'Something went wrong starting your payment - please try again, or contact Jada directly if it keeps happening.'
+          );
+        },
+      });
   }
 }
