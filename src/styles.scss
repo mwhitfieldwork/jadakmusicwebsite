@@ -156,6 +156,13 @@ img {
   display: block;
 }
 
+.page-hero .eyebrow--on-dark {
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+
+
 .rule {
   width: 64px;
   height: 1px;
@@ -329,13 +336,13 @@ img {
 }
 
 .service-list li::before {
-  content: '';
+  content: '♪';
   position: absolute;
   left: 0;
-  top: 0.55em;
-  width: 8px;
-  height: 1px;
-  background: var(--color-gold);
+  top: -0.05em;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 1.1em;
 }
 
 .service-columns {

@@ -82,9 +82,11 @@ export const SOCIAL_ICONS = {
 };
 
 export const PRICING = {
-  hourlyRate: 25,
-  depositPercent: 30,
-  terms: '30% deposit/installment to get started, with a final installment once everything is approved.',
+  firstHourRate: 300,
+  additionalHourRate: 50,
+  depositAmount: 75,
+  depositPercent:25,
+  terms: '$75 deposit to reserve your date, with the remaining balance due once everything is approved.',
 };
 
 /**
@@ -218,7 +220,10 @@ export const EVENTS_GALLERY: EventPhoto[] = [
   { src: 'assets/images/events/5.jpg', alt: 'Birthday Celebration' },
   { src: 'assets/images/events/image0.jpeg', alt: 'Pastor Darius Brooks - Anniversary Concert - Allen Metropolitan CME Church' },
   { src: 'assets/images/events/image1.jpeg', alt: 'Anniversary Concert - Allen Metropolitan CME Church' },
-  { src: 'assets/images/events/jada-kosine.jpg', alt: 'Grammy Nominated Producer - Kosine- Columbia University’s Music Business Program' },
+  { src: 'assets/images/events/IMG_4052.jpeg', alt: 'BF Creative Fundraiser Gala' },
+  { src: 'assets/images/events/IMG_4054.jpeg', alt: 'Salon Sevhn Garden Soirée/Open House' },
+  { src: 'assets/images/events/IMG_4057.jpeg', alt: 'Veranda at Dawn Chicago' },
+  { src: 'assets/images/events/IMG_4058.png', alt: 'Bridal Shower' },
 ];
 
 export const CONTACT_CONTENT = {
