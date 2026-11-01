@@ -55,12 +55,15 @@ export class Booking {
   });
 
   get estimatedTotal(): number {
-    const hours = this.form.controls.estimatedHours.value || 0;
-    return hours * this.pricing.hourlyRate;
+    const hours = this.form.controls.estimatedHours.value || 1;
+    if (hours <= 1) {
+      return this.pricing.firstHourRate;
+    }
+    return this.pricing.firstHourRate + (hours - 1) * this.pricing.additionalHourRate;
   }
 
   get estimatedDeposit(): number {
-    return Math.round(this.estimatedTotal * (this.pricing.depositPercent / 100));
+    return this.pricing.depositAmount;
   }
 
   payDeposit(): void {
