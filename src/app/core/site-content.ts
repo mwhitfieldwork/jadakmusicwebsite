@@ -121,7 +121,8 @@ export const STRIPE_PAYMENT_LINKS = {
   finalInstallment: 'https://buy.stripe.com/test_9B6cN5biOdSpgwL5Ydgw000',
 };
 
-export const RECEIPT_SERVICE_URL = 'http://localhost:5214';
+//export const RECEIPT_SERVICE_URL = 'http://localhost:5214';//local
+export const RECEIPT_SERVICE_URL = 'https://jadakmusicbackendservice-production.up.railway.app';
 // Swap to the real Railway URL once the backend is deployed.
 
 export const HOME_CONTENT = {
